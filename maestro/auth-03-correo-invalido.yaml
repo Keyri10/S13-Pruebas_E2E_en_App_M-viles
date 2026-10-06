@@ -1,0 +1,18 @@
+appId: com.lumina.booking
+tags:
+  - auth
+---
+- launchApp:
+    clearState: true
+- tapOn:
+    id: "login-email"
+- inputText: "nadie@lumina.app"
+- hideKeyboard
+- tapOn:
+    id: "login-submit"
+- extendedWaitUntil:
+    visible: "No encontramos una cuenta con ese correo."
+    timeout: 20000
+- assertVisible:
+    id: "login-error"
+- assertVisible: "Quiero una cita"

@@ -1,0 +1,22 @@
+appId: com.lumina.booking
+tags:
+  - profesional
+---
+- launchApp:
+    clearState: true
+- tapOn:
+    id: "demo-professional"
+- extendedWaitUntil:
+    visible:
+      id: "complete-apt-camila-confirmed"
+    timeout: 20000
+- tapOn:
+    id: "complete-apt-camila-confirmed"
+- extendedWaitUntil:
+    visible:
+      id: "status-apt-camila-confirmed"
+      text: "Completada"
+    timeout: 20000
+- assertVisible: "Historial"
+- assertNotVisible:
+    id: "complete-apt-camila-confirmed"

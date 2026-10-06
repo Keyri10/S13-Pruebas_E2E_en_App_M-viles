@@ -1,0 +1,36 @@
+appId: com.lumina.booking
+tags:
+  - cliente
+---
+- launchApp:
+    clearState: true
+- tapOn:
+    id: "demo-client"
+- extendedWaitUntil:
+    visible:
+      id: "service-svc-manicure"
+    timeout: 20000
+- tapOn:
+    id: "service-svc-manicure"
+- extendedWaitUntil:
+    visible:
+      id: "slot-1100"
+    timeout: 20000
+- tapOn:
+    id: "date-0"
+- tapOn:
+    id: "slot-1100"
+- tapOn:
+    id: "confirm-booking"
+- extendedWaitUntil:
+    visible:
+      id: "booking-success"
+    timeout: 20000
+- assertVisible: "Cita reservada"
+- tapOn:
+    id: "go-to-appointments"
+- extendedWaitUntil:
+    visible: "Mis citas"
+    timeout: 20000
+- assertVisible: "Manicure clásico"
+- assertVisible: "Pendiente"

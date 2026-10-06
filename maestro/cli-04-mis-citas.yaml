@@ -1,0 +1,25 @@
+appId: com.lumina.booking
+tags:
+  - cliente
+---
+- launchApp:
+    clearState: true
+- tapOn:
+    id: "demo-client"
+- extendedWaitUntil:
+    visible:
+      id: "tab-citas"
+    timeout: 20000
+- tapOn:
+    id: "tab-citas"
+- extendedWaitUntil:
+    visible:
+      id: "status-apt-ana-pending"
+    timeout: 20000
+- assertVisible: "Gel semipermanente"
+- assertVisible:
+    id: "status-apt-ana-pending"
+    text: "Pendiente"
+- assertNotVisible: "Sofía Ruiz"
+- assertNotVisible: "Camila Ortiz"
+- assertNotVisible: "Elena Díaz"

@@ -1,0 +1,22 @@
+appId: com.lumina.booking
+tags:
+  - profesional
+---
+- launchApp:
+    clearState: true
+- tapOn:
+    id: "demo-professional"
+- extendedWaitUntil:
+    visible: "Por confirmar"
+    timeout: 20000
+- assertVisible: "Sofía Ruiz"
+- assertVisible:
+    id: "status-apt-sofia-pending"
+    text: "Pendiente"
+- assertVisible: "Camila Ortiz"
+- assertVisible:
+    id: "status-apt-camila-confirmed"
+    text: "Confirmada"
+- assertVisible: "Elena Díaz"
+- assertVisible: "Ana Gómez"
+- assertVisible: "Confirmadas"

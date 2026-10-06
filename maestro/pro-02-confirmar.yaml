@@ -1,0 +1,21 @@
+appId: com.lumina.booking
+tags:
+  - profesional
+---
+- launchApp:
+    clearState: true
+- tapOn:
+    id: "demo-professional"
+- extendedWaitUntil:
+    visible:
+      id: "confirm-apt-sofia-pending"
+    timeout: 20000
+- tapOn:
+    id: "confirm-apt-sofia-pending"
+- extendedWaitUntil:
+    visible:
+      id: "status-apt-sofia-pending"
+      text: "Confirmada"
+    timeout: 20000
+- assertNotVisible:
+    id: "confirm-apt-sofia-pending"

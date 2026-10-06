@@ -1,0 +1,21 @@
+appId: com.lumina.booking
+tags:
+  - cliente
+---
+- launchApp:
+    clearState: true
+- tapOn:
+    id: "demo-client"
+- extendedWaitUntil:
+    visible:
+      id: "service-svc-manicure"
+    timeout: 20000
+- assertVisible: "Manicure clásico"
+- assertVisible: "Gel semipermanente"
+- assertVisible: "Nail art"
+- assertVisible: "Retiro y cuidado"
+- assertVisible: "45 min"
+- assertVisible: "70 min"
+- assertVisible: "90 min"
+- assertVisible: "30 min"
+- assertVisible: "Lunes a sábado"

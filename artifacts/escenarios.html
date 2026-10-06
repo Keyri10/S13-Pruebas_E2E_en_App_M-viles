@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lúmina — escenarios</title>
+  <style>
+    :root { color-scheme: light; --bg: #f6f3f0; --ink: #1c1c1c; --muted: #6d6560; --card: #fff; --line: #e7e0da; --blush: #e7c9c4; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.5 "Segoe UI", sans-serif; }
+    header, main { width: min(980px, calc(100% - 32px)); margin: 0 auto; }
+    header { padding: 40px 0 8px; }
+    h1 { font-size: 40px; line-height: 1.1; margin: 0 0 8px; }
+    .lead { color: var(--muted); max-width: 68ch; }
+    nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; }
+    nav a { color: var(--ink); text-decoration: none; background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; font-size: 14px; }
+    article { background: var(--card); border-radius: 24px; padding: 24px; margin: 18px 0; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 24px; align-items: start; }
+    article.wide { grid-template-columns: 1fr; }
+    h2 { margin: 0 0 4px; font-size: 24px; }
+    .id { font-size: 13px; letter-spacing: 0.04em; color: var(--muted); }
+    .shots { display: flex; flex-wrap: wrap; gap: 12px; }
+    img { width: min(100%, 320px); border-radius: 20px; background: #efeae6; }
+    pre { white-space: pre-wrap; background: #f6f3f0; border-radius: 16px; padding: 14px 16px; font: 14px/1.45 ui-monospace, Consolas, monospace; }
+    .meta { color: var(--muted); font-size: 14px; }
+    @media (max-width: 800px) { article { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Escenarios de Lúmina</h1>
+    <p class="lead">Cada escenario de <code>docs/escenarios.feature</code> con la pantalla que lo demuestra. La agenda vuelve al estado de demostración antes de cada caso: Sofía a las 10:00, Camila a las 16:00, Elena al día siguiente y Ana con un gel pendiente. Los precios están en quetzales.</p>
+    <nav>
+      <a href="#auth-01">AUTH-01</a>
+      <a href="#auth-02">AUTH-02</a>
+      <a href="#auth-03">AUTH-03</a>
+      <a href="#cli-01">CLI-01</a>
+      <a href="#cli-02">CLI-02</a>
+      <a href="#cli-03">CLI-03</a>
+      <a href="#cli-04">CLI-04</a>
+      <a href="#cli-05">CLI-05</a>
+      <a href="#pro-01">PRO-01</a>
+      <a href="#pro-02">PRO-02</a>
+      <a href="#pro-03">PRO-03</a>
+      <a href="#pro-04">PRO-04</a>
+    </nav>
+  </header>
+  <main>
+    <article id="auth-01">
+      <div>
+        <p class="id">AUTH-01 · cliente</p>
+        <h2>La cliente entra con su cuenta de demostración</h2>
+        <pre>Cuando Ana elige "Quiero una cita"
+Entonces ve "Hola, Ana"
+Y permanece en el catálogo de servicios</pre>
+        <p class="meta">Flujo: <code>maestro/auth-01-cliente.yaml</code>. El botón de demostración entra como ana@lumina.app.</p>
+      </div>
+      <img src="screenshots/auth-01.png" alt="Catálogo con el saludo Hola, Ana" />
+    </article>
+
+    <article id="auth-02">
+      <div>
+        <p class="id">AUTH-02 · profesional</p>
+        <h2>La profesional entra a su agenda</h2>
+        <pre>Cuando Lucía elige "Ver mi agenda"
+Entonces ve "Agenda de Lucía"
+Y ve las citas de Sofía, Camila, Elena y Ana</pre>
+        <p class="meta">Flujo: <code>maestro/auth-02-profesional.yaml</code>. La tarjeta resume 4 citas y 4 clientas, Q1420.</p>
+      </div>
+      <img src="screenshots/auth-02.png" alt="Agenda de Lucía al entrar" />
+    </article>
+
+    <article id="auth-03">
+      <div>
+        <p class="id">AUTH-03</p>
+        <h2>Un correo desconocido no entra</h2>
+        <pre>Cuando alguien escribe "nadie@lumina.app" y pulsa "Entrar"
+Entonces ve "No encontramos una cuenta con ese correo."
+Y sigue en la pantalla de acceso</pre>
+        <p class="meta">Flujo: <code>maestro/auth-03-correo-invalido.yaml</code>. La API responde 401 y la app no cambia de ruta.</p>
+      </div>
+      <img src="screenshots/auth-03.png" alt="Acceso con el correo nadie@lumina.app y el mensaje de error" />
+    </article>
+
+    <article id="cli-01">
+      <div>
+        <p class="id">CLI-01 · cliente</p>
+        <h2>La cliente consulta el catálogo</h2>
+        <pre>Dado que Ana ha entrado
+Entonces ve "Manicure clásico", "Gel semipermanente", "Nail art" y "Retiro y cuidado"
+Y ve la duración y el precio de cada servicio
+Y ve que Lucía atiende de lunes a sábado, de 10:00 a 18:00</pre>
+        <p class="meta">Flujo: <code>maestro/cli-01-catalogo.yaml</code>. Precios: Q160, Q280, Q420 y Q560.</p>
+      </div>
+      <img src="screenshots/cli-01.png" alt="Catálogo con cuatro servicios, duración y precio en quetzales" />
+    </article>
+
+    <article id="cli-02" class="wide">
+      <div>
+        <p class="id">CLI-02 · cliente</p>
+        <h2>La cliente reserva el primer hueco libre</h2>
+        <pre>Cuando abre "Manicure clásico"
+Y elige el primer día hábil
+Y elige las 11:00
+Y confirma la cita
+Entonces ve "Cita reservada"
+Y al abrir "Mis citas" ve ese manicure como "Pendiente"</pre>
+        <p class="meta">Flujo: <code>maestro/cli-02-reservar.yaml</code>. Las 10:00 y las 10:30 están ocupadas por Sofía, así que el primer hueco libre del manicure es las 11:00.</p>
+      </div>
+      <div class="shots">
+        <img src="screenshots/cli-02.png" alt="Mensaje Cita reservada para el manicure clásico" />
+        <img src="screenshots/cli-02-citas.png" alt="Mis citas con el manicure pendiente y el gel de Ana" />
+      </div>
+    </article>
+
+    <article id="cli-03">
+      <div>
+        <p class="id">CLI-03 · cliente</p>
+        <h2>Un horario ocupado no se puede reservar</h2>
+        <pre>Cuando abre "Manicure clásico" en el primer día hábil
+Y toca las 10:00
+Entonces ve "Ese horario ya está ocupado."
+Y "Confirmar cita" permanece desactivado</pre>
+        <p class="meta">Flujo: <code>maestro/cli-03-horario-ocupado.yaml</code>. El aviso aparece al tocar el hueco y el botón de confirmar no se habilita.</p>
+      </div>
+      <img src="screenshots/cli-03.png" alt="Horarios ocupados y el aviso Ese horario ya está ocupado" />
+    </article>
+
+    <article id="cli-04">
+      <div>
+        <p class="id">CLI-04 · cliente</p>
+        <h2>La cliente consulta sus citas</h2>
+        <pre>Cuando abre "Mis citas"
+Entonces ve su "Gel semipermanente" en estado "Pendiente"
+Y no ve las citas de Sofía, Camila ni Elena</pre>
+        <p class="meta">Flujo: <code>maestro/cli-04-mis-citas.yaml</code>. La lista sale de la sesión de Ana, no de toda la agenda.</p>
+      </div>
+      <img src="screenshots/cli-04.png" alt="Mis citas muestra solo el gel pendiente de Ana" />
+    </article>
+
+    <article id="cli-05">
+      <div>
+        <p class="id">CLI-05 · cliente</p>
+        <h2>La cliente cancela su cita pendiente</h2>
+        <pre>Cuando cancela su gel pendiente
+Entonces esa cita pasa a "Cancelada"
+Y ya no ofrece "Cancelar cita" para esa reserva</pre>
+        <p class="meta">Flujo: <code>maestro/cli-05-cancelar.yaml</code>. El identificador de semilla es apt-ana-pending.</p>
+      </div>
+      <img src="screenshots/cli-05.png" alt="El gel de Ana queda Cancelada y sin botón de cancelar" />
+    </article>
+
+    <article id="pro-01">
+      <div>
+        <p class="id">PRO-01 · profesional</p>
+        <h2>La profesional revisa lo que llega al estudio</h2>
+        <pre>Dado que Lucía ha entrado
+Entonces ve a Sofía Ruiz en "Por confirmar"
+Y ve a Camila Ortiz en "Confirmadas"
+Y ve a Elena Díaz y a Ana Gómez entre las pendientes</pre>
+        <p class="meta">Flujo: <code>maestro/pro-01-agenda.yaml</code>. Sofía abre la sección Por confirmar.</p>
+      </div>
+      <img src="screenshots/pro-01.png" alt="Agenda con Sofía Ruiz pendiente en Por confirmar" />
+    </article>
+
+    <article id="pro-02">
+      <div>
+        <p class="id">PRO-02 · profesional</p>
+        <h2>La profesional confirma una cita pendiente</h2>
+        <pre>Cuando confirma la cita de Sofía Ruiz
+Entonces esa cita pasa a "Confirmada"
+Y deja de mostrarse en "Por confirmar"</pre>
+        <p class="meta">Flujo: <code>maestro/pro-02-confirmar.yaml</code>. Sofía pasa a Confirmadas, junto a Camila.</p>
+      </div>
+      <img src="screenshots/pro-02.png" alt="Sofía Ruiz en Confirmadas" />
+    </article>
+
+    <article id="pro-03">
+      <div>
+        <p class="id">PRO-03 · profesional</p>
+        <h2>La profesional completa una cita confirmada</h2>
+        <pre>Cuando marca como completada la cita de Camila Ortiz
+Entonces esa cita pasa a "Completada"
+Y aparece en "Historial"</pre>
+        <p class="meta">Flujo: <code>maestro/pro-03-completar.yaml</code>. Completada es un estado terminal.</p>
+      </div>
+      <img src="screenshots/pro-03.png" alt="Camila Ortiz completada en Historial" />
+    </article>
+
+    <article id="pro-04">
+      <div>
+        <p class="id">PRO-04 · profesional</p>
+        <h2>La profesional cancela una cita pendiente</h2>
+        <pre>Cuando cancela la cita de Elena Díaz
+Entonces esa cita pasa a "Cancelada"
+Y aparece en "Historial"</pre>
+        <p class="meta">Flujo: <code>maestro/pro-04-cancelar.yaml</code>. En esta captura el historial también conserva el nail art de Camila, completado en el escenario anterior.</p>
+      </div>
+      <img src="screenshots/pro-04.png" alt="Elena Díaz cancelada en Historial" />
+    </article>
+  </main>
+</body>
+</html>

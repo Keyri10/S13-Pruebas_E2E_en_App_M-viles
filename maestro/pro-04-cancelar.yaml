@@ -1,0 +1,22 @@
+appId: com.lumina.booking
+tags:
+  - profesional
+---
+- launchApp:
+    clearState: true
+- tapOn:
+    id: "demo-professional"
+- extendedWaitUntil:
+    visible:
+      id: "cancel-apt-elena-pending"
+    timeout: 20000
+- tapOn:
+    id: "cancel-apt-elena-pending"
+- extendedWaitUntil:
+    visible:
+      id: "status-apt-elena-pending"
+      text: "Cancelada"
+    timeout: 20000
+- assertVisible: "Historial"
+- assertNotVisible:
+    id: "cancel-apt-elena-pending"

@@ -1,0 +1,16 @@
+appId: com.lumina.booking
+tags:
+  - auth
+  - profesional
+---
+- launchApp:
+    clearState: true
+- tapOn:
+    id: "demo-professional"
+- extendedWaitUntil:
+    visible: "Agenda de Lucía"
+    timeout: 20000
+- assertVisible: "Sofía Ruiz"
+- assertVisible: "Camila Ortiz"
+- assertVisible: "Elena Díaz"
+- assertVisible: "Ana Gómez"

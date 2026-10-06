@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "Lúmina",
+    "slug": "lumina",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "scheme": "lumina",
+    "backgroundColor": "#F4EFE8",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.lumina.booking"
+    },
+    "android": {
+      "package": "com.lumina.booking",
+      "adaptiveIcon": {
+        "backgroundColor": "#8E3B4E",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "bundler": "metro",
+      "favicon": "./assets/favicon.png",
+      "backgroundColor": "#E7DDD2"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-status-bar"
+    ]
+  }
+}

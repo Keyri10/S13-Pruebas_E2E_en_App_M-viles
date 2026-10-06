@@ -1,0 +1,15 @@
+appId: com.lumina.booking
+tags:
+  - auth
+  - cliente
+---
+- launchApp:
+    clearState: true
+- assertVisible: "Lúmina"
+- tapOn:
+    id: "demo-client"
+- extendedWaitUntil:
+    visible: "Hola, Ana"
+    timeout: 20000
+- assertVisible:
+    id: "service-svc-manicure"

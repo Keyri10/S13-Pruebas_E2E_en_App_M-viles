@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lúmina — lectura técnica</title>
+  <style>
+    :root { --bg: #f6f3f0; --ink: #1c1c1c; --muted: #6d6560; --card: #fff; --line: #e7e0da; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 18px/1.55 "Segoe UI", sans-serif; }
+    main { width: min(820px, calc(100% - 32px)); margin: 0 auto; padding: 40px 0 64px; }
+    h1 { font-size: 40px; line-height: 1.1; margin: 0 0 8px; }
+    h2 { margin: 32px 0 8px; font-size: 24px; }
+    .lead, .note { color: var(--muted); }
+    figure { margin: 16px 0; background: var(--card); border-radius: 20px; padding: 16px; }
+    svg { width: 100%; height: auto; }
+    table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 16px; overflow: hidden; }
+    th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { font-size: 14px; color: var(--muted); font-weight: 600; }
+    code { font-family: ui-monospace, Consolas, monospace; font-size: 0.92em; }
+    img { width: min(100%, 320px); border-radius: 20px; }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="lead">Lectura de unos cinco minutos</p>
+    <h1>Cómo está armada Lúmina</h1>
+    <p>Lúmina es un estudio de uñas con dos roles. Ana Gómez reserva un servicio. Lucía Navarro ve esa cita y la mueve de estado. La app es React Native con Expo. La API es Hono sobre SQLite. Los escenarios viven en Gherkin y cada uno tiene un flujo de Maestro.</p>
+
+    <h2>Diagrama</h2>
+    <figure>
+      <svg viewBox="0 0 760 250" role="img" aria-label="La app Expo habla con la API Hono, que guarda en SQLite. Maestro dispara la app.">
+        <rect x="16" y="36" width="180" height="84" rx="16" fill="#161616" />
+        <text x="106" y="72" text-anchor="middle" fill="#fff" font-size="16" font-family="Segoe UI, sans-serif">App Expo</text>
+        <text x="106" y="94" text-anchor="middle" fill="#e7c9c4" font-size="13" font-family="Segoe UI, sans-serif">cliente y profesional</text>
+        <rect x="290" y="36" width="180" height="84" rx="16" fill="#fff" stroke="#e7e0da" />
+        <text x="380" y="72" text-anchor="middle" font-size="16" font-family="Segoe UI, sans-serif">API Hono</text>
+        <text x="380" y="94" text-anchor="middle" fill="#6d6560" font-size="13" font-family="Segoe UI, sans-serif">Zod y Effect</text>
+        <rect x="564" y="36" width="180" height="84" rx="16" fill="#fff" stroke="#e7e0da" />
+        <text x="654" y="72" text-anchor="middle" font-size="16" font-family="Segoe UI, sans-serif">SQLite</text>
+        <text x="654" y="94" text-anchor="middle" fill="#6d6560" font-size="13" font-family="Segoe UI, sans-serif">citas y sesiones</text>
+        <path d="M196 78 H290" stroke="#1c1c1c" stroke-width="2" />
+        <path d="M470 78 H564" stroke="#1c1c1c" stroke-width="2" />
+        <rect x="290" y="156" width="180" height="72" rx="16" fill="#e7c9c4" />
+        <text x="380" y="186" text-anchor="middle" font-size="16" font-family="Segoe UI, sans-serif">Maestro</text>
+        <text x="380" y="206" text-anchor="middle" font-size="13" font-family="Segoe UI, sans-serif">12 flujos YAML</text>
+        <path d="M380 156 V120" stroke="#1c1c1c" stroke-width="2" />
+      </svg>
+    </figure>
+    <p>El cliente y la profesional usan la misma app. El rol llega en el login y decide la ruta: catálogo o agenda. Maestro no habla con la API. Abre la app, toca la pantalla y comprueba el texto. La API se reinicia aparte, con <code>POST /dev/reset</code>, para que cada escenario empiece en la misma agenda.</p>
+
+    <h2>Librerías</h2>
+    <table>
+      <thead><tr><th>Pieza</th><th>Para qué</th></tr></thead>
+      <tbody>
+        <tr><td>Expo 57 y React Native 0.86</td><td>La app móvil. En esta entrega también corre en web con <code>react-native-web</code>.</td></tr>
+        <tr><td>expo-router</td><td>Rutas de acceso, catálogo, reserva, citas y agenda.</td></tr>
+        <tr><td>Hono y @hono/node-server</td><td>HTTP en el puerto 8787.</td></tr>
+        <tr><td>SQLite de Node 22</td><td>Una sola base, <code>api/data/lumina.sqlite</code>, recreada al arrancar.</td></tr>
+        <tr><td>Zod 3</td><td>Valida el cuerpo y los query params antes de tocar el dominio.</td></tr>
+        <tr><td>Effect 3</td><td>El programa de negocio: errores con etiqueta, transacción y el acceso a la base.</td></tr>
+        <tr><td>Maestro</td><td>Un YAML por escenario de Gherkin. El id de la app es <code>com.lumina.booking</code>.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Flujo de la cliente</h2>
+    <p>Ana entra con el botón “Quiero una cita”. El catálogo pide <code>GET /services</code>. Al abrir un servicio, <code>GET /calendar</code> devuelve los próximos seis días hábiles y <code>GET /availability</code> marca cada media hora. El estudio abre de lunes a sábado, de 10:00 a 18:00, hora de Ciudad de México. Un hueco está ocupado si se cruza con otra cita que no esté cancelada. Confirmar hace <code>POST /appointments</code>. Si alguien ya tomó ese intervalo, la API responde 409. Si entra, la cita nace pendiente y Ana la ve en “Mis citas”. Desde ahí puede cancelarla.</p>
+    <figure><img src="screenshots/acceso.png" alt="Pantalla de acceso de Lúmina" /></figure>
+
+    <h2>Flujo de la profesional</h2>
+    <p>Lucía entra con “Ver mi agenda”. <code>GET /appointments</code> le devuelve todas las citas, no solo las suyas de clienta. La pantalla las parte en Por confirmar, Confirmadas e Historial. Confirmar, completar y cancelar son <code>PATCH /appointments/:id</code>. Pendiente puede pasar a confirmada o cancelada. Confirmada puede pasar a completada o cancelada. Completada y cancelada ya no se mueven. Una clienta no puede confirmar: la API responde 403.</p>
+
+    <h2>Patrones</h2>
+    <p><strong>Zod en la frontera.</strong> El HTTP traduce JSON a un objeto revisado. Si el correo no tiene forma de correo, o el día no es una fecha, la petición muere en 400 y el dominio no se entera.</p>
+    <p><strong>Effect para el fallo esperado.</strong> Correo desconocido, cita ajena, horario ocupado y transición ilegal son errores con etiqueta. El adaptador HTTP los convierte en 401, 403, 409 o 400. Un fallo inesperado cae en 500.</p>
+    <p><strong>Una transacción por reserva.</strong> Crear la cita y comprobar el cruce ocurren dentro de <code>BEGIN IMMEDIATE</code>. Dos reservas del mismo hueco no pueden colarse juntas.</p>
+    <p><strong>Semilla relativa.</strong> Las citas de demostración no tienen una fecha fija. Se calculan a partir de mañana, saltando el domingo. Por eso los flujos dicen “el primer día hábil” y no “el 6 de octubre”.</p>
+    <p><strong>Gherkin y Maestro, uno a uno.</strong> <code>docs/escenarios.feature</code> nombra el comportamiento. <code>docs/qa-maestro.md</code> dice cómo reiniciar la base y cómo lanzar <code>scripts/e2e.ps1</code>. Cada escenario tiene un YAML en <code>maestro/</code> que busca los mismos textos y los mismos <code>testID</code>.</p>
+
+    <h2>Qué se ejecutó</h2>
+    <p class="note">Las pruebas de la API, con <code>npm test</code> en <code>api/</code>, cubren el correo desconocido, la reserva del hueco libre, el choque con la cita de Sofía, las transiciones de estado y el reinicio que invalida la sesión. Los doce flujos de Maestro están escritos. En esta máquina no está instalado el CLI de Maestro ni hay un emulador con el build <code>com.lumina.booking</code>, así que esas capturas salen de recorrer los mismos pasos en Expo web. La guía QA explica la corrida real en un dispositivo.</p>
+  </main>
+</body>
+</html>
